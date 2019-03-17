@@ -1,0 +1,51 @@
+{
+   "radioNetworkAddress": 2452234,
+   "radioChannel": 15,
+   "wifiSsid": "wx_iot",
+   "wifiPass": "yxfdfgsdfg",
+   "ntpServerName": "ntp.google.com",
+   "timeZone": 1,
+   "localUdpPort": 5678,
+   "thingSpeakAddress": "api.thingspeak.com",
+   "thingSpeakAPIKeyArr": [
+      "ADSF4ADFA",
+      "",
+      "",
+      "",
+      "",
+      ""
+   ],
+   "sensorSet": 1,
+   "sensorReadFrequencyMs": 30000,
+   "elevation": 123.5,
+   "tsNodeConfigArr": [
+      {
+         "name": "",
+         "thingSpeakReadKey": "",
+         "thingSpeakChannel": "",
+         "fieldMapping": [
+            0,
+            0,
+            0,
+            0,
+            0
+         ],
+         "nodeID": 0,
+         "readFrequencyMs": 0
+      },
+      {
+         "name": "",
+         "thingSpeakReadKey": "",
+         "thingSpeakChannel": "",
+         "fieldMapping": [
+            0,
+            0,
+            0,
+            0,
+            0
+         ],
+         "nodeID": 4,
+         "readFrequencyMs": 60000
+      }
+   ]
+}

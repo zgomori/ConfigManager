@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+	<link rel="stylesheet" type="text/css" href="structjson.css"	 >
+ 	<script src="structjson.js"></script>
+    <script>
+	var _cppStructJsonConverter = new CppStructJsonConverter(); 
+
+	function init(){
+		document.getElementById("b64Url").value = window.location.origin;
+//		document.getElementById("row2").style = "display:none;";
+	}	
+	
+	function display(inputId, value){
+		var w = document.getElementById(inputId).value = value;
+	}
+
+	function readStructDescriptorFile(e){
+		readFile(e, function(contents){
+			display("struct-description", contents);
+			display("cpp-struct", "");
+			display("memory-map", "");
+		});
+	}
+
+	function processDescriptorJson(e){
+		var memoryMapFactory = 	new MemoryMapFactory();
+		var rawData = new RawData();
+		var descriptor = document.getElementById("struct-description").value;
+		_cppStructJsonConverter.memoryMap = memoryMapFactory.createFromDescriptorJson(descriptor);
+			 			
+		display("cpp-struct", memoryMapFactory.descriptorJson2CppSrc(descriptor));
+		display("memory-map", JSON.stringify(_cppStructJsonConverter.memoryMap, null, 3));
+
+		rawData.setToEmpty(_cppStructJsonConverter.memoryMap.size);
+		showMemoryMapTable(_cppStructJsonConverter.getMemoryMapTable(rawData));
+		
+		display("data-json", _cppStructJsonConverter.raw2json(rawData));
+	}
+	
+	function readCppSrcFile(e){
+		readFile(e, function(contents){
+			document.getElementById("cpp-struct").value = contents;
+			display("struct-description", "");
+			display("memory-map", "");
+		});
+	}
+	
+	function processCppSrc(){
+		var memoryMapFactory = 	new MemoryMapFactory();
+		var rawData = new RawData();
+		var descriptor = memoryMapFactory.cppSrc2DescriptorJson(document.getElementById("cpp-struct").value);
+		_cppStructJsonConverter.memoryMap = memoryMapFactory.createFromDescriptorJson(descriptor);
+
+		display("struct-description", descriptor);
+		display("memory-map", JSON.stringify(_cppStructJsonConverter.memoryMap, null, 3));
+
+		rawData.setToEmpty(_cppStructJsonConverter.memoryMap.size);
+		showMemoryMapTable(_cppStructJsonConverter.getMemoryMapTable(rawData));
+		
+		display("data-json", _cppStructJsonConverter.raw2json(rawData));
+	}	
+	
+	function showMemoryMapTable(tblObject){
+		var oldTable = document.getElementById("memory-map-table");
+		if (oldTable != null){
+			oldTable.parentNode.removeChild(oldTable);
+		}
+		document.getElementById("memory-table-column").appendChild(tblObject);
+	}	
+	
+	
+	function readDataFile(e){
+		readFile(e, function(fileContent){
+			display('data-json', fileContent);
+		});
+	}	
+	
+	function processDataJson(){
+		var rawData = _cppStructJsonConverter.json2raw(document.getElementById('data-json').value);
+		
+		rawData.encodeToB64();
+
+		display("b64input", rawData.getB64String());
+		display("decodedBinary", rawData.getHexValue(0, _cppStructJsonConverter.memoryMap.size));
+			
+			
+		var tableDomObject = document.getElementById("memory-map-table");
+		if (tableDomObject != null){
+			document.getElementById("memory-table-column").removeChild(tableDomObject);
+		}
+			
+		var tbl = _cppStructJsonConverter.getMemoryMapTable(rawData);
+		document.getElementById("memory-table-column").appendChild(tbl);
+	}	
+	
+	
+  
+	function processB64(){ 
+		var rawData = new RawData();
+		if (document.getElementById("b64input").value == ""){
+			alert("ERROR: BASE64 input is empty!");
+			return;
+		}
+		rawData.fromBase64String(document.getElementById("b64input").value);
+		showMemoryMapTable(_cppStructJsonConverter.getMemoryMapTable(rawData));
+
+		display("decodedBinary", rawData.getHexValue(0, _cppStructJsonConverter.memoryMap.size));
+		display('data-json', _cppStructJsonConverter.raw2json(rawData));
+	}
+
+
+
+	function getBase64(){
+		document.getElementById("decodedBinary").value ="";
+		document.getElementById("b64input").value = "";
+		
+		var getUrl = document.getElementById("b64Url").value;
+		
+		if (getUrl != ""){
+			ajaxHttpGet(getUrl, function(response){display("b64input",response); display("decodedBinary", base64toHEX(response));});
+		}	
+		else{
+			alert("URL is empty!");
+		}		
+	}
+
+	function postBase64(){
+		var postUrl = document.getElementById("b64Url").value;
+		
+		if (postUrl != ""){
+			if (document.getElementById("b64input").value != ""){
+				ajaxHttpPost(postUrl, "b64=" + document.getElementById("b64input").value, function(response){alert(response);});
+			}	
+			else{
+				alert("BASE64 field is empty!");
+			}
+		}	
+		else{
+			alert("URL is empty!");
+		}		
+	}
+	
+	
+	
+	function showHideStuctBlock(){
+		var row = document.getElementById("rowStruct");
+		if (row.className == "row"){
+			row.className = "row-hidden";
+		}
+		else{
+			row.className = "row";
+		}
+	}
+	
+	
+	function base64toHEX(base64) {
+		var raw = atob(base64);
+		var hex = '';
+		for (var i = 0; i < raw.length; i++ ) {
+			var _hex = raw.charCodeAt(i).toString(16);
+			hex += (_hex.length==2?_hex:'0'+_hex) + " ";
+		}
+		return hex.toUpperCase();
+	}	
+	window.onload = init;
+    </script>
+	
+	<style>
+
+	</style>
+  </head>
+  <body>
+
+  	<div class="wrapper">
+		<div class="row">
+			<div class="column column-content">
+				<div class="row">	
+					<label for="cpp-input-data" class="cust-button">Open C++ source</label>
+					<input type="file" id="cpp-input-data" onChange="readCppSrcFile(event)">
+
+					<a onClick="processCppSrc()" class="cust-button">Process C++ definition</a>
+				</div>
+			</div>	
+			<div class="column column-content">
+				<div class="row">
+					<label for="desc-input-data" class="cust-button">Open descriptor JSON</label>
+					<input type="file" id="desc-input-data" onChange="readStructDescriptorFile(event)">
+
+					<a onClick="processDescriptorJson()" class="cust-button">Process descriptor JSON</a>
+				</div>	
+			</div>	
+			<div class="column column-content">
+				<a onClick="showHideStuctBlock()" class="cust-button">Show/Hide struct</a>
+			</div>		
+		</div>
+
+		<div class="row" id="rowStruct" >
+			<div class="column column-content">
+				<span class="header">C++ STRUCT definition</span>
+				<textarea id="cpp-struct" class="mmap-textarea"></textarea> 
+			</div>
+			<div class="column column-content">
+				<span class="header">JSON struct description</span>
+				<textarea id="struct-description" class="mmap-textarea"></textarea>
+			</div>
+			<div class="column column-content">
+				<span class="header">memory map JSON</span>
+				<textarea id="memory-map" readonly class="mmap-textarea textarea-result"></textarea> 
+			</div>
+		</div>
+
+		<div class="row" >
+			<div class="column">
+				<div id="memory-table-column" class="column-content"> 
+					<span class="header">Memory map table</span>
+				</div>
+			</div>
+		</div>
+		<div class="row" >
+			<div class="column">
+				<div class="column-content">
+					<div class="column">
+						<span class="header">BASE64 data</span>
+						<textarea id="b64input" class="binary-textarea"></textarea>
+											<div>
+						URL: <input type="text" name"b64-get-url" id="b64Url" class="url-input">
+						</div>	
+						<div>
+							<a onClick="getBase64()" class="cust-button">GET BASE64</a> 
+							<a onClick="processB64()" class="cust-button">PROCESS BASE64</a>
+							<a onClick="postBase64()" class="cust-button">POST BASE64</a> 
+						</div>	
+
+					</div>
+				</div>
+			</div>	
+			<div class="column">
+				<div class="column-content">
+					<div class="column">
+						<span class="header">HEX data</span>
+						<textarea id="decodedBinary" readonly class="binary-textarea"></textarea>
+					</div>
+				</div>
+			</div>	
+			<div class="column">
+				<div class="column-content">
+					<div class="column">
+						<span class="header">Data JSON</span>
+						<textarea id="data-json" class="mmap-textarea"></textarea>				
+						<div>
+							<label for="out-data" class="cust-button">Open data JSON</label>
+							<input type="file" id="out-data" onChange="readDataFile(event)">
+							<a onClick="processDataJson()" class="cust-button">Process</a>
+							<a id="save-out-json" class="cust-button">save</a>
+						</div>
+
+					</div>
+				</div>
+			</div>	
+		</div>	
+			
+	</div>	
+  </body>
+</html>  

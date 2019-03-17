@@ -1,0 +1,21 @@
+{
+   "id": 1024,
+   "orderNumber": 1001,
+   "items": [
+      {
+         "id": 100,
+         "name": "itemtest",
+         "amount": 123.4
+      },
+      {
+         "id": 101,
+         "name": "itemtest2",
+         "amount": 432.1
+      }
+   ],
+   "comments": [
+      "abcdefghjklo",
+      "qwertzu",
+      "yxcvbn"
+   ]
+}

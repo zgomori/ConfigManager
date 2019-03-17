@@ -1,0 +1,171 @@
+		
+	* {
+		margin: 0;
+		padding: 0;
+	}
+
+	h1, h3{
+	  text-transform: uppercase;
+	  font-weight: normal;
+	}
+	
+	body {
+		background-color : #E0E0E0;
+	}
+
+	
+	.wrapper {
+	  margin: 4px;
+	}	
+
+	.row {
+	  display: flex;
+	  flex-direction: row;
+	  flex-wrap: wrap;
+	  width: 100%;
+	}
+	
+	.row-hidden{
+		display: none;	
+	}
+
+	.column {
+	  display: flex;
+	  flex-direction: column;
+	  flex-basis: 100%;
+	  flex: 1;
+	}
+	
+	.column-double {
+	  flex: 2;
+	}
+
+	.column-content {
+		padding: 4px; 
+	}
+	
+	.mmap-textarea {
+		height: 300px;
+		padding: 5px;
+		font-family:courier, courier new, serif; 
+		font-size: 13px;
+		background-color: #333333;
+		color: #FFFFFF;
+		border: 0px;
+		outline: none;
+		white-space: pre;
+	}	
+	
+	.textarea-result {
+		color: #cecd96;
+	}	
+	
+	
+	.button-link {
+		border: 1px solid #ccc;
+	    text-decoration: none;
+		display: inline-block;
+		padding: 6px 12px;
+		cursor: pointer;
+		margin-bottom: 10px;
+		font-size: 12px;
+		text-transform: uppercase;
+		background: #4A83FD;
+		color: #FFF;	
+		text-align:center
+	}	
+
+	.cust-button {
+		font-family:courier, courier new, serif; 
+		font-size: 14px;
+		font-weight: bold;
+		display: inline-block;
+		margin: 4px 2px 4px 2px;
+		padding: 2px;
+		cursor: pointer;
+		text-transform: uppercase;
+		background: #FFF;
+		color: #000000;	
+		text-align:center;
+		//border: 1px solid #B0B0B0
+	}	
+
+	
+	.cust-button:hover {
+		background: #000000;
+		color: #FFF;	
+	}	
+	.cust-button::after{
+		content: "]";	
+	}
+	.cust-button::before{
+		content: "[";	
+	}
+	
+	table, th, td {
+		border: 1px solid black;
+		font-family:courier, courier new, serif; 		
+		font-size: 14px;
+	}
+	
+	table {
+		border-collapse: collapse;
+		width:100%;
+		background-color: #333333;
+		color: #cecd96;
+
+	}
+	td {
+		padding: 5px; 
+		min-width: 50px; 
+	}
+	
+	th {
+		font-weight: bold;	
+	}
+	
+	.memory-map-padding {
+		color:#AAAAAA;
+	}
+
+	
+	.memory-map-error {
+		color:red;
+	}
+	
+
+	.header {
+		display: block;
+		width: 100%
+		vertical-align: bottom;
+		font-size: 12px;
+		text-transform: uppercase;
+		padding: 7px;
+		background-color: #666666;
+		color: #FFFFFF;
+	}
+
+	
+	
+	.binary-textarea {
+		padding: 5px;
+		font-family:courier, courier new, serif; 
+		font-size: 13px;
+		background-color: #333333;
+		color: #FFFFFF;
+		border: 0px;
+		outline: none;	
+		height: 120px;
+		height: 300px;
+	}
+
+	.label {
+		font-size: 12px;
+		text-transform: uppercase;
+		color: #FEFEFE;
+	}
+
+	
+	input[type="file"] {
+		display: none;
+	}

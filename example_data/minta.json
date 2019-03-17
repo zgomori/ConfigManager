@@ -1,0 +1,35 @@
+{
+	"Item" :[ 
+		{
+			"dataType" : "uint16_t",
+			"name" : "id"
+		},
+		{
+			"dataType" : "char",
+			"name" : "name[20]"
+		},
+		{
+			"dataType" : "float",
+			"name" : "amount"
+		}
+	],
+	"BASE_STRUCTURE" : [
+		{
+			"dataType" : "uint16_t",
+			"name" : "id"
+		},
+		{
+			"dataType" : "uint16_t",
+			"name" : "orderNumber"
+		},
+		{
+			"dataType" : "Item",
+			"name" : "items[2]"
+		},
+		{
+			"dataType" : "char",
+			"name" : "comments[3][10]"
+		}
+	]
+}
+	

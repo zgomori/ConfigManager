@@ -1,0 +1,82 @@
+{
+   "WsnTSnodeConfig": [
+      {
+         "dataType": "char",
+         "name": "name[16]"
+      },
+      {
+         "dataType": "char",
+         "name": "thingSpeakReadKey[20]"
+      },
+      {
+         "dataType": "char",
+         "name": "thingSpeakChannel[8]"
+      },
+      {
+         "dataType": "int8_t",
+         "name": "fieldMapping[5]"
+      },
+      {
+         "dataType": "uint8_t",
+         "name": "nodeID"
+      },
+      {
+         "dataType": "uint64_t",
+         "name": "readFrequencyMs"
+      }
+   ],
+   "WsnReceiverConfig": [
+      {
+         "dataType": "uint64_t",
+         "name": "radioNetworkAddress"
+      },
+      {
+         "dataType": "int",
+         "name": "radioChannel"
+      },
+      {
+         "dataType": "char",
+         "name": "wifiSsid[20]"
+      },
+      {
+         "dataType": "char",
+         "name": "wifiPass[20]"
+      },
+      {
+         "dataType": "char",
+         "name": "ntpServerName[20]"
+      },
+      {
+         "dataType": "int8_t",
+         "name": "timeZone"
+      },
+      {
+         "dataType": "uint",
+         "name": "localUdpPort"
+      },
+      {
+         "dataType": "char",
+         "name": "thingSpeakAddress[20]"
+      },
+      {
+         "dataType": "char",
+         "name": "thingSpeakAPIKeyArr[6][20]"
+      },
+      {
+         "dataType": "byte",
+         "name": "sensorSet"
+      },
+      {
+         "dataType": "uint64_t",
+         "name": "sensorReadFrequencyMs"
+      },
+      {
+         "dataType": "float",
+         "name": "elevation"
+      },
+      {
+         "dataType": "WsnTSnodeConfig",
+         "name": "tsNodeConfigArr[2]"
+      }
+   ]
+}
