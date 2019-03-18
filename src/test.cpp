@@ -45,7 +45,8 @@ void setup(){
 	configManager.softApSetup("ESP8266_1", "123456789", IPAddress(192,168,168,1), IPAddress(192,168,168,1), IPAddress(255,255,255,0));
 
 //	readConfig(cfg);
-	configManager.readFromFile();
+	uint8_t readFileResult = configManager.readFromFile();
+	Log.debug("Open config result: %d", readFileResult);
 
 	WiFi.begin(cfg.wifiSsid, cfg.wifiPass);
 
