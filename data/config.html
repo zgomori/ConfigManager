@@ -3,14 +3,20 @@
   <head>
 	<link rel="stylesheet" type="text/css" href="structjson.css"	 >
  	<script src="structjson.js"></script>
-    <script>
+	<script>
 	var _cppStructJsonConverter = new CppStructJsonConverter(); 
 
-	function init(){
-		document.getElementById("b64Url").value = window.location.origin;
-//		document.getElementById("row2").style = "display:none;";
-	}	
-	
+
+	const _apiBase = window.location.origin+"/configManager/api/";
+	const _getB64URL = _apiBase + "getB64";
+	const _updateB64URL = _apiBase + "updateB64";
+	const _writeToFileURL = _apiBase + "writeToFile";
+	const _reloadFileURL = _apiBase + "reloadFile";
+	const _deleteFileURL = _apiBase + "deleteFile";
+	const _stopAPURL = _apiBase + "stopAP";
+	const _resetDeviceURL = _apiBase + "resetDevice";
+
+
 	function display(inputId, value){
 		var w = document.getElementById(inputId).value = value;
 	}
@@ -115,30 +121,16 @@
 		document.getElementById("decodedBinary").value ="";
 		document.getElementById("b64input").value = "";
 		
-		var getUrl = document.getElementById("b64Url").value;
-		
-		if (getUrl != ""){
-			ajaxHttpGet(getUrl, function(response){display("b64input",response); display("decodedBinary", base64toHEX(response));});
-		}	
-		else{
-			alert("URL is empty!");
-		}		
+		ajaxHttpGet(_getB64URL, function(response){display("b64input",response); display("decodedBinary", base64toHEX(response));});
 	}
 
 	function postBase64(){
-		var postUrl = document.getElementById("b64Url").value;
-		
-		if (postUrl != ""){
-			if (document.getElementById("b64input").value != ""){
-				ajaxHttpPost(postUrl, "b64=" + document.getElementById("b64input").value, function(response){alert(response);});
-			}	
-			else{
-				alert("BASE64 field is empty!");
-			}
+		if (document.getElementById("b64input").value != ""){
+			ajaxHttpPost(_updateB64URL, "b64=" + document.getElementById("b64input").value, function(response){alert(response);});
 		}	
 		else{
-			alert("URL is empty!");
-		}		
+			alert("BASE64 field is empty!");
+		}
 	}
 	
 	
@@ -163,7 +155,7 @@
 		}
 		return hex.toUpperCase();
 	}	
-	window.onload = init;
+
     </script>
 	
 	<style>
@@ -223,9 +215,6 @@
 					<div class="column">
 						<span class="header">BASE64 data</span>
 						<textarea id="b64input" class="binary-textarea"></textarea>
-											<div>
-						URL: <input type="text" name"b64-get-url" id="b64Url" class="url-input">
-						</div>	
 						<div>
 							<a onClick="getBase64()" class="cust-button">GET BASE64</a> 
 							<a onClick="processB64()" class="cust-button">PROCESS BASE64</a>
@@ -259,7 +248,18 @@
 				</div>
 			</div>	
 		</div>	
-			
+		<div class="row" >
+			<div class="column">
+				<div class="column-content">
+					<a onClick='ajaxHttpGet(_writeToFileURL, function(response){alert(response);})' class="cust-button">WRITE TO SPIFFS</a> 
+					<a onClick='ajaxHttpGet(_reloadFileURL, function(response){alert(response);})' class="cust-button">RELOAD FROM SPIFFS</a>
+					<a onClick='ajaxHttpGet(_deleteFileURL, function(response){alert(response);})' class="cust-button">DELETE FILE FROM SPIFFS</a>
+					<a onClick='ajaxHttpGet(_stopAPURL, function(response){alert(response);})' class="cust-button">STOP AP WEBSERVER</a>
+					<a onClick='ajaxHttpGet(_resetDeviceURL, function(response){alert(response);})' class="cust-button">RESTART DEVICE</a>
+
+				</div>
+			</div>		
+		</div>			
 	</div>	
   </body>
 </html>  
