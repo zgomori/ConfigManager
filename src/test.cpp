@@ -1,5 +1,5 @@
 #include "Arduino.h"
-#include "ConfigHandler.h"
+#include "ConfigManager.h"
 #include "Logger.h"
 
 
@@ -32,7 +32,7 @@ Logger Log;
 
 WsnReceiverConfig cfg;
 
-ConfigHandler configHandler((char*)&cfg, sizeof(cfg), (char*)"config/wsnconfig");
+ConfigManager configManager((char*)&cfg, sizeof(cfg), (char*)"config/wsnconfig");
 
 const char* wifiStatusToString(wl_status_t status);
 
@@ -42,10 +42,10 @@ void setup(){
 
 	Log.init(LOG_LEVEL::DEBUG, &Serial);
 
-	configHandler.softApSetup("ESP8266_1", "123456789", IPAddress(192,168,168,1), IPAddress(192,168,168,1), IPAddress(255,255,255,0));
+	configManager.softApSetup("ESP8266_1", "123456789", IPAddress(192,168,168,1), IPAddress(192,168,168,1), IPAddress(255,255,255,0));
 
 //	readConfig(cfg);
-	configHandler.readFromFile();
+	configManager.readFromFile();
 
 	WiFi.begin(cfg.wifiSsid, cfg.wifiPass);
 
@@ -66,12 +66,12 @@ void setup(){
 		Log.info("WiFi Connection failed.");
 	}
 
-	configHandler.startApWebserver();
+	configManager.startApWebserver();
 }
 
 void loop() {
   //server.handleClient();
-  configHandler.webServerListen();
+  configManager.webServerListen();
 }
 
 
