@@ -45,7 +45,8 @@
                 "C:/Users/zoltan.gomori/.platformio/packages/tool-unity",
                 "c:/Users/zoltan.gomori/Documents/PlatformIO/Projects/ConfigManager/include",
                 "c:/Users/zoltan.gomori/Documents/PlatformIO/Projects/ConfigManager/src",
-                ""
+                "",
+                "${workspaceFolder}/lib/ConfigManager"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
@@ -91,6 +92,7 @@
                     "C:/Users/zoltan.gomori/.platformio/packages/framework-arduinoespressif8266/libraries/esp8266/src",
                     "C:/Users/zoltan.gomori/.platformio/packages/tool-unity",
                     "c:/Users/zoltan.gomori/Documents/PlatformIO/Projects/ConfigManager/include",
+                    "c:/Users/zoltan.gomori/Documents/PlatformIO/Projects/ConfigManager/lib",
                     "c:/Users/zoltan.gomori/Documents/PlatformIO/Projects/ConfigManager/src",
                     ""
                 ]

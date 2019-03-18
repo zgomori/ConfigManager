@@ -158,7 +158,7 @@ void ConfigManager::initWebserver(){
 	webServer->on("/", [this](){
 		Log.debug("ConfigManager serves request /");
 		webServer->send(200, "text/plain", "Config Manager\r\n\r\n" 
-		"API endpoint: /config/api\r\n"
+		"API endpoint: /configManager/api\r\n"
 		"Methods:\r\n"
 		"   getB64\r\n"
 		"   updateB64\r\n"
@@ -170,8 +170,8 @@ void ConfigManager::initWebserver(){
 		);
 	});
 
-	webServer->on("/config/api/getB64", [this](){
-		Log.debug("ConfigManager serves request /config/api/getB64");
+	webServer->on("/configManager/api/getB64", [this](){
+		Log.debug("ConfigManager serves request /configManager/api/getB64");
 		uint16_t b64Length = encode_base64_length(this->configRawLength);
 		char b64[b64Length];
 
@@ -179,8 +179,8 @@ void ConfigManager::initWebserver(){
 		webServer->send(200, "text/plain", b64);
 	});
 
-	webServer->on("/config/api/updateB64", [this](){
-		Log.debug("ConfigManager serves request /config/api/updateB64");
+	webServer->on("/configManager/api/updateB64", [this](){
+		Log.debug("ConfigManager serves request /configManager/api/updateB64");
 		if (webServer->arg("b64")!= ""){
 			uint16_t b64Length = webServer->arg("b64").length() + 1;
 			char b64[b64Length];
@@ -200,16 +200,16 @@ void ConfigManager::initWebserver(){
 		}
 	});
 
-	webServer->on("/config/api/stopAP", [this](){
-		Log.debug("ConfigManager serves request /config/api/stopAP");		
+	webServer->on("/configManager/api/stopAP", [this](){
+		Log.debug("ConfigManager serves request /configManager/api/stopAP");		
 		webServer->send(200, "text/plain", "OK");
 		delay(100);
 		this->stopApWebserver();
 	});
 
 
-	webServer->on("/config/api/writeToFile", [this](){
-		Log.debug("ConfigManager serves request /config/api/writeToFile");		
+	webServer->on("/configManager/api/writeToFile", [this](){
+		Log.debug("ConfigManager serves request /configManager/api/writeToFile");		
 		if (this->writeToFile() == 0){
 			webServer->send(200, "text/plain", "OK");
 		}
@@ -218,8 +218,8 @@ void ConfigManager::initWebserver(){
 		}
 	});
 
-	webServer->on("/config/api/reloadFile", [this](){
-		Log.debug("ConfigManager serve request /config/api/reloadFile");
+	webServer->on("/configManager/api/reloadFile", [this](){
+		Log.debug("ConfigManager serve request /configManager/api/reloadFile");
 		uint8_t fileReadResult = this->readFromFile();
 		if (fileReadResult == 0){
 			Log.debug("OK");
@@ -232,8 +232,8 @@ void ConfigManager::initWebserver(){
 	});
 
 
-	webServer->on("/config/api/deleteFile", [this](){
-		Log.debug("ConfigManager serves request /config/api/deleteFile");
+	webServer->on("/configManager/api/deleteFile", [this](){
+		Log.debug("ConfigManager serves request /configManager/api/deleteFile");
 		if (this->deleteFile()){
 			webServer->send(200, "text/plain", "OK");
 		}
@@ -242,8 +242,8 @@ void ConfigManager::initWebserver(){
 		}
 	});
 
-	webServer->on("/config/api/resetDevice", [this](){
-		Log.debug("ConfigManager serves request /config/api/deviceReset");
+	webServer->on("/configManager/api/resetDevice", [this](){
+		Log.debug("ConfigManager serves request /configManager/api/deviceReset");
 		webServer->send(200, "text/plain", "OK");
 		delay(1000);
 		this->stopApWebserver();
