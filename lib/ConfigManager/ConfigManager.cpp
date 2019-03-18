@@ -159,14 +159,14 @@ void ConfigManager::initWebserver(){
 		Log.debug("ConfigManager serves request /");
 		webServer->send(200, "text/plain", "Config Manager\r\n\r\n" 
 		"API endpoint: /configManager/api\r\n"
-		"Methods:\r\n"
-		"   getB64\r\n"
-		"   updateB64\r\n"
-		"   writeToFile\r\n"
-		"   reloadFile\r\n"
-		"   deleteFile\r\n"
-		"   stopAP\r\n"
-		"   resetDevice\r\n"
+		"	Function		Method	Parameter\r\n"
+		"	getB64		GET		-\r\n"
+		"	updateB64	POST		b64\r\n"
+		"	writeToFile	GET		-\r\n"
+		"	reloadFile	GET		-\r\n"
+		"	deleteFile	GET		-\r\n"
+		"	stopAP		GET		-\r\n"
+		"	resetDevice	GET		-\r\n"
 		);
 	});
 
